@@ -16,7 +16,8 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
     var nextTextField = UITextField()
     var textFieldCounter = 0
     var words = [[String]]()
-    let magicWord = ["h", "l", "l", "o"]
+    var correctGuess = false
+    let magicWord = ["h", "e", "l", "l", "o"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,23 +40,13 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "reusableCell", for: indexPath) as! GuessCell
-        cell.Char1.delegate = self
-        cell.Char2.delegate = self
-        cell.Char3.delegate = self
-        cell.Char4.delegate = self
-        cell.Char5.delegate = self
-        cell.Char1.myDelegate = self
-        cell.Char2.myDelegate = self
-        cell.Char3.myDelegate = self
-        cell.Char4.myDelegate = self
-        cell.Char5.myDelegate = self
         
-        let word = words[indexPath.row]
-        cell.Char1.text = word[0]
-        cell.Char2.text = word[1]
-        cell.Char3.text = word[2]
-        cell.Char4.text = word[3]
-        cell.Char5.text = word[4]
+        let rowIndex = indexPath.row
+        prepareTextField(cell.Char1, rowIndex: rowIndex, textFieldIndex: 0)
+        prepareTextField(cell.Char2, rowIndex: rowIndex, textFieldIndex: 1)
+        prepareTextField(cell.Char3, rowIndex: rowIndex, textFieldIndex: 2)
+        prepareTextField(cell.Char4, rowIndex: rowIndex, textFieldIndex: 3)
+        prepareTextField(cell.Char5, rowIndex: rowIndex, textFieldIndex: 4)
         
         if indexPath.row == activeRow {
             switch textFieldCounter {
@@ -77,8 +68,17 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
         return cell
     }
     
+    func prepareTextField(_ textField: MyTextField, rowIndex: Int, textFieldIndex: Int) {
+        textField.delegate = self
+        textField.myDelegate = self
+        let word = words[rowIndex]
+        textField.text = word[textFieldIndex]
+        if correctGuess && rowIndex == activeRow {
+            textField.backgroundColor = .green
+        }
+    }
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        //tableView.reloadData()
         if textField == currentTextField {
             return true
         } else {
@@ -88,10 +88,20 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
     
     func textFieldDidDelete() {
             print("delete")
-        if textFieldCounter > 0 {
-            textFieldCounter -= 1
-            words[activeRow][textFieldCounter] = ""
+        if textFieldCounter == numberOfCharacters - 1 {
+            if words[activeRow][textFieldCounter] == "" {
+                textFieldCounter -= 1
+                words[activeRow][textFieldCounter] = ""
+            } else {
+                words[activeRow][textFieldCounter] = ""
+            }
             tableView.reloadData()
+        } else {
+            if textFieldCounter > 0 {
+                textFieldCounter -= 1
+                words[activeRow][textFieldCounter] = ""
+                tableView.reloadData()
+            }
         }
     }
     
@@ -101,17 +111,38 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
             if let text = textField.text {
                 words[activeRow][textFieldCounter] = text
             }
-
-            if textFieldCounter == numberOfCharacters - 1 {
-                // test the guess
-                activeRow += 1
-                textFieldCounter = 0
-                // if activeRow > numberOfGuesse: Better luck next time!
-            } else {
+           
+            if textFieldCounter < numberOfCharacters - 1 {
                 textFieldCounter += 1
+                tableView.reloadData()
+
             }
 
-            tableView.reloadData()
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("pressed")
+        if textFieldCounter == numberOfCharacters - 1 {
+            let guess = words[activeRow]
+            if guess == magicWord {
+                correctGuess = true
+                textField.resignFirstResponder()
+                tableView.reloadData()
+                let alert = UIAlertController(title: "Congratulation!\n This was your best try ever.", message: "You did it!", preferredStyle: .alert)
+                self.present(alert, animated: true) {
+                    print("done!")
+                }
+                
+            } else {
+                textFieldCounter = 0
+                activeRow += 1
+                textField.resignFirstResponder()
+                tableView.reloadData()
+            }
+            return true
+        } else {
+            return false
         }
     }
 }
