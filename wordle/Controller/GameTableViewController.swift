@@ -16,8 +16,10 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
     var nextTextField = UITextField()
     var textFieldCounter = 0
     var words = [[String]]()
+    var colors = [[UIColor]]()
     var correctGuess = false
-    let magicWord = ["h", "e", "l", "l", "o"]
+    var NLetterWords = Array<Substring>()
+    var magicWord = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +27,47 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
         tableView.separatorStyle = .none
         
         let defaultGuess = ["", "", "", "", ""]
-//        let defaultGuess = [" ", " ", " ", " ", " "]
+        let defaultColor = [UIColor]( repeating: .white, count: numberOfCharacters)
         for _ in 0...numberOfGuesses - 1 {
             words.append(defaultGuess)
+            colors.append(defaultColor)
         }
+        
+        loadWords()
+        resetGame()
+    }
+    
+    func loadWords() {
+        let fileName = "/Users/Zahra/Documents/Work:Personal/Learning/iOS_Swift/MyApps/wordle/wordle/osDictionary.txt"//"osDictionary.txt"
+        do {
+            let text = try String(contentsOfFile: fileName)
+            //print(text.count)
+            let words = text.split(whereSeparator: \.isNewline)
+            //print(words.count)
+            NLetterWords = words.filter{ $0.count == numberOfCharacters}
+            print(NLetterWords.count)
+        } catch {
+            print("error reading file \(error)")
+        }
+    }
+    
+    func resetGame() {
+        activeRow = 0
+        textFieldCounter = 0
+        correctGuess = false
+        let defaultGuess = ["", "", "", "", ""]
+        let defaultColor = [UIColor]( repeating: .white, count: numberOfCharacters)
+        for i in 0...numberOfGuesses - 1 {
+            words[i]  = defaultGuess
+            colors[i] = defaultColor
+        }
+        let randomWord = NLetterWords.randomElement()!
+        magicWord = [String]()
+        for char in randomWord {
+            magicWord.append(String(char))
+        }
+        print(magicWord)
+        tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -71,11 +110,12 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
     func prepareTextField(_ textField: MyTextField, rowIndex: Int, textFieldIndex: Int) {
         textField.delegate = self
         textField.myDelegate = self
+        
         let word = words[rowIndex]
         textField.text = word[textFieldIndex]
-        if correctGuess && rowIndex == activeRow {
-            textField.backgroundColor = .green
-        }
+    
+        let color = colors[rowIndex]
+        textField.backgroundColor = color[textFieldIndex]
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -115,34 +155,79 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
             if textFieldCounter < numberOfCharacters - 1 {
                 textFieldCounter += 1
                 tableView.reloadData()
-
             }
-
         }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
         print("pressed")
         if textFieldCounter == numberOfCharacters - 1 {
-            let guess = words[activeRow]
-            if guess == magicWord {
-                correctGuess = true
-                textField.resignFirstResponder()
-                tableView.reloadData()
-                let alert = UIAlertController(title: "Congratulation!\n This was your best try ever.", message: "You did it!", preferredStyle: .alert)
-                self.present(alert, animated: true) {
-                    print("done!")
-                }
-                
-            } else {
-                textFieldCounter = 0
-                activeRow += 1
-                textField.resignFirstResponder()
-                tableView.reloadData()
-            }
+            checkGuess(textField)
             return true
         } else {
             return false
         }
+    }
+    
+    func checkGuess(_ textField: UITextField) {
+        
+        let guess = words[activeRow]
+        
+        // check if the word is in dictionary
+        let guessWord    = guess.joined(separator: "")
+        let guessWordSS  = guessWord[guessWord.startIndex..<guessWord.endIndex]
+        if NLetterWords.contains(guessWordSS) {
+            
+            // Change colors according to the guess/magic word similarity
+            for count in 0...numberOfCharacters - 1 {
+                let char = guess[count]
+                if magicWord.contains(char) {
+                    colors[activeRow][count] = .orange
+                    
+                    if char == magicWord[count] {
+                        colors[activeRow][count] = .green
+                    }
+                } else {
+                    colors[activeRow][count] = .gray
+                }
+            }
+            
+            if guess == magicWord { // game is won
+                correctGuess = true
+                textField.resignFirstResponder()
+                tableView.reloadData()
+
+                let alert = UIAlertController(title: "Congratulation!\n This was your best try ever.", message: "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Play again", style: .default, handler: { action in
+                    self.resetGame()
+                }))
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                
+                if activeRow == numberOfGuesses - 1 { // game over
+                    let alert = UIAlertController(title: "Game Over!\n Better luck next time.", message: "You're not that smart!", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Play again", style: .default, handler: { action in
+                        self.resetGame()
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                } else { // can still play
+                    
+                    textFieldCounter = 0
+                    activeRow += 1
+                    textField.resignFirstResponder()
+                    tableView.reloadData()
+                    
+                }
+            }
+
+        } else {
+            let alert = UIAlertController(title: "That is not a word!", message: "Try again.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                self.tableView.reloadData()
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
     }
 }

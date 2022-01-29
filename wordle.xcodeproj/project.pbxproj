@@ -17,6 +17,7 @@
 		8D75F80927A2A87100B82BCD /* GuessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D75F80727A2A87100B82BCD /* GuessCell.xib */; };
 		8D75F80B27A30DCB00B82BCD /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D75F80A27A30DCA00B82BCD /* MyTextField.swift */; };
 		8DCDA15827A2A3E400DBA09D /* GameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCDA15727A2A3E400DBA09D /* GameTableViewController.swift */; };
+		8DFC7FA027A541E900CC25C3 /* osDictionary.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DFC7F9F27A541E900CC25C3 /* osDictionary.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		8D75F80727A2A87100B82BCD /* GuessCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GuessCell.xib; sourceTree = "<group>"; };
 		8D75F80A27A30DCA00B82BCD /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
 		8DCDA15727A2A3E400DBA09D /* GameTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewController.swift; sourceTree = "<group>"; };
+		8DFC7F9F27A541E900CC25C3 /* osDictionary.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osDictionary.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,11 +68,13 @@
 			children = (
 				8D075AB827A29EC20000FFF5 /* AppDelegate.swift */,
 				8D075ABA27A29EC20000FFF5 /* SceneDelegate.swift */,
+				8DFBB47827A53FC3000136C1 /* Model */,
 				8DCDA15927A2A42500DBA09D /* Controller */,
 				8DCDA15A27A2A43000DBA09D /* View */,
 				8D075AC127A29EC70000FFF5 /* Assets.xcassets */,
 				8D075AC327A29EC70000FFF5 /* LaunchScreen.storyboard */,
 				8D075AC627A29EC70000FFF5 /* Info.plist */,
+				8DFC7F9F27A541E900CC25C3 /* osDictionary.txt */,
 			);
 			path = wordle;
 			sourceTree = "<group>";
@@ -93,6 +97,13 @@
 				8D075ABE27A29EC20000FFF5 /* Main.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		8DFBB47827A53FC3000136C1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D075AC527A29EC70000FFF5 /* LaunchScreen.storyboard in Resources */,
+				8DFC7FA027A541E900CC25C3 /* osDictionary.txt in Resources */,
 				8D75F80927A2A87100B82BCD /* GuessCell.xib in Resources */,
 				8D075AC227A29EC70000FFF5 /* Assets.xcassets in Resources */,
 				8D075AC027A29EC20000FFF5 /* Main.storyboard in Resources */,
