@@ -38,9 +38,12 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
     }
     
     func loadWords() {
-        let fileName = "/Users/Zahra/Documents/Work:Personal/Learning/iOS_Swift/MyApps/wordle/wordle/osDictionary.txt"//"osDictionary.txt"
+        
+        let fileName = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("dictionary.txt") // the file is created using osDictionary.txt file
+        
         do {
-            let text = try String(contentsOfFile: fileName)
+            let text = try String(contentsOf: fileName)
+            
             //print(text.count)
             let words = text.split(whereSeparator: \.isNewline)
             //print(words.count)
