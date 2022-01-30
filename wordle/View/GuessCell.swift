@@ -23,25 +23,22 @@ class GuessCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        // TODO: Refactor the following
         Char1.layer.borderWidth = GuessCellView.frame.height / 20
-        Char1.layer.cornerRadius = GuessCellView.frame.height / 5
+        Char1.layer.cornerRadius = GuessCellView.frame.height / 10
         
         Char2.layer.borderWidth = GuessCellView.frame.height / 20
-        Char2.layer.cornerRadius = GuessCellView.frame.height / 5
+        Char2.layer.cornerRadius = GuessCellView.frame.height / 10
         
         Char3.layer.borderWidth = GuessCellView.frame.height / 20
-        Char3.layer.cornerRadius = GuessCellView.frame.height / 5
+        Char3.layer.cornerRadius = GuessCellView.frame.height / 10
         
         Char4.layer.borderWidth = GuessCellView.frame.height / 20
-        Char4.layer.cornerRadius = GuessCellView.frame.height / 5
+        Char4.layer.cornerRadius = GuessCellView.frame.height / 10
         
         Char5.layer.borderWidth = GuessCellView.frame.height / 20
-        Char5.layer.cornerRadius = GuessCellView.frame.height / 5
-        
-//        Char2.delegate = self
-//        Char3.delegate = self
-//        Char4.delegate = self
-//        Char5.delegate = self
+        Char5.layer.cornerRadius = GuessCellView.frame.height / 10
         
     }
 
