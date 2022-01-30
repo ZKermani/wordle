@@ -23,6 +23,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.register(UINib(nibName: "GuessCell", bundle: nil), forCellReuseIdentifier: "reusableCell")
         tableView.separatorStyle = .none
         
@@ -80,7 +81,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "reusableCell", for: indexPath) as! GuessCell
         
         let rowIndex = indexPath.row
@@ -116,7 +117,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
         
         let word = words[rowIndex]
         textField.text = word[textFieldIndex]
-    
+        
         let color = colors[rowIndex]
         textField.backgroundColor = color[textFieldIndex]
     }
@@ -130,7 +131,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
     }
     
     func textFieldDidDelete() {
-            print("delete")
+        print("delete")
         if textFieldCounter == numberOfCharacters - 1 {
             if words[activeRow][textFieldCounter] == "" {
                 textFieldCounter -= 1
@@ -154,7 +155,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
             if let text = textField.text {
                 words[activeRow][textFieldCounter] = text
             }
-           
+            
             if textFieldCounter < numberOfCharacters - 1 {
                 textFieldCounter += 1
                 tableView.reloadData()
@@ -197,23 +198,22 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
             }
             
             if guess == magicWord { // game is won
+                
                 correctGuess = true
                 textField.resignFirstResponder()
                 tableView.reloadData()
-
-                let alert = UIAlertController(title: "Congratulation!\n This was your best try ever.", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Play again", style: .default, handler: { action in
-                    self.resetGame()
-                }))
+                
+                let alert = endOfGameAlert(title: "Congratulation!\n This was your best try ever.",
+                                           message: "")
                 self.present(alert, animated: true, completion: nil)
+                
             } else {
                 
                 if activeRow == numberOfGuesses - 1 { // game over
-                    let alert = UIAlertController(title: "Game Over!\n Better luck next time.", message: "You're not that smart!", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Play again", style: .default, handler: { action in
-                        self.resetGame()
-                    }))
+                    let alert = endOfGameAlert(title: "Game Over!\n Better luck next time.",
+                                               message: "You're not that smart!")
                     self.present(alert, animated: true, completion: nil)
+                    
                 } else { // can still play
                     
                     textFieldCounter = 0
@@ -223,7 +223,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
                     
                 }
             }
-
+            
         } else {
             let alert = UIAlertController(title: "That is not a word!", message: "Try again.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
@@ -231,6 +231,21 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
             }))
             self.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    func endOfGameAlert(title: String, message: String) -> UIAlertController {
         
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let playAgainAction = UIAlertAction(title: "Play again", style: .default, handler: { action in
+            self.resetGame()
+        })
+        let cancelAction = UIAlertAction(title: "I'm done", style: .default, handler: { action in
+            exit(0)
+        })
+        
+        alert.addAction(playAgainAction)
+        alert.addAction(cancelAction)
+        return alert
     }
 }
