@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SPConfetti
 
 class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTextFieldDelegate {
     
@@ -42,8 +43,16 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
         
         let fileName = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("dictionary.txt") // the file is created using osDictionary.txt file
         
+//        let fileName2 = URL(fileURLWithPath: "/Users/Zahra/Documents/Work:Personal/Learning/iOS_Swift/MyApps/wordle/wordle/osDictionary.txt")
+        
         do {
+            //let text = try String(contentsOf: fileName)
             let text = try String(contentsOf: fileName)
+//            do {
+//                try text.write(to: fileName, atomically: true, encoding: String.Encoding.utf8)
+//            } catch {
+//                print("error writing to file \(error)")
+//            }
             
             //print(text.count)
             let words = text.split(whereSeparator: \.isNewline)
@@ -206,6 +215,9 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
                 let alert = endOfGameAlert(title: "Congratulation!\n This was your best try ever.",
                                            message: "")
                 self.present(alert, animated: true, completion: nil)
+                SPConfetti.startAnimating(.fullWidthToDown,
+                                          particles: [.triangle, .star, .arc, .circle, .polygon, .heart],
+                                          duration: 5.0)
                 
             } else {
                 

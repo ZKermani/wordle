@@ -1,0 +1,16 @@
+PODS:
+  - SPConfetti (1.4.0)
+
+DEPENDENCIES:
+  - SPConfetti
+
+SPEC REPOS:
+  trunk:
+    - SPConfetti
+
+SPEC CHECKSUMS:
+  SPConfetti: 4ba720ff652d960f59c3e4eadee2c0c3ef6ce9a4
+
+PODFILE CHECKSUM: 94d66c55c5598fc129376c311d90550818dfdc9e
+
+COCOAPODS: 1.11.2
