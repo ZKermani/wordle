@@ -12,7 +12,8 @@ protocol KeyboardButtonDelegate: class {
 
 class KeyboardButton: UIButton {
     
-    var buttonIsEnabled : Bool = true
+    var buttonIsEnabled: Bool = true
+    var title: String = ""
     private let formatter: KeyboardButtonFormatter
     weak var delegate: KeyboardButtonDelegate?
     
@@ -24,15 +25,16 @@ class KeyboardButton: UIButton {
     
     init(title: CustomStringConvertible, formatter: KeyboardButtonFormatter) {
         self.formatter = formatter
+        self.title = title.description
         
 //        super.init(frame: .zero)
         super.init(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         
               
-
         if title.description == "Del" {
             self.contentMode = .center
             self.setImage(UIImage(systemName: "delete.left"), for: .normal)
+//            self.setTitle(title.description, for: .normal)
             
         } else {
             self.setTitle(title.description, for: .normal)

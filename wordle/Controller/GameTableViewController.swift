@@ -22,6 +22,8 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
     var NLetterWords = Array<Substring>()
     var magicWord = [String]()
     
+    let keyboard = WordleKeyboard()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,6 +125,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
     func prepareTextField(_ textField: WorldleTextField, rowIndex: Int, textFieldIndex: Int) {
         textField.delegate = self
         textField.myDelegate = self
+        textField.inputView = keyboard
         
         let word = words[rowIndex]
         textField.text = word[textFieldIndex]
@@ -133,6 +136,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == currentTextField {
+            keyboard.observer = textField as! WorldleTextField
             return true
         } else {
             return false
@@ -183,6 +187,16 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
         }
     }
     
+    
+     func enterWasPressed() {
+         
+         print("enter pressed")
+         if textFieldCounter == numberOfCharacters - 1 {
+             let textField = UITextField()
+             checkGuess(textField)
+         }
+     }
+    
     func checkGuess(_ textField: UITextField) {
         
         let guess = words[activeRow]
@@ -209,7 +223,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
             if guess == magicWord { // game is won
                 
                 correctGuess = true
-                textField.resignFirstResponder()
+                //textField.resignFirstResponder()
                 tableView.reloadData()
                 
                 let alert = endOfGameAlert(title: "Congratulation!\n This was your best try ever.",
@@ -230,7 +244,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
                     
                     textFieldCounter = 0
                     activeRow += 1
-                    textField.resignFirstResponder()
+                    //textField.resignFirstResponder()
                     tableView.reloadData()
                     
                 }

@@ -13,6 +13,7 @@ class WordleKeyboard: UIInputView {
     
     /// Observers telling when keys were hit
     weak var observer: WordleKeyboardObserver?
+    var observers: [WordleKeyboardObserver]?
     
     var buttons : [String: KeyboardButton] = [String: KeyboardButton]()
     var keyboardHeight = 180.0
@@ -129,17 +130,33 @@ class WordleKeyboard: UIInputView {
 // MARK: - KeyboardButtonDelegate methods
 extension WordleKeyboard: KeyboardButtonDelegate {
     func keyWasHit(_ button: KeyboardButton) {
-        guard let title = button.titleLabel?.text else {
+//        guard let title = button.titleLabel?.text else {
+//            return
+//        }
+        
+        let title = button.title
+        
+        if title == "Del" {
+            if let safeObserver = observer {
+                if let textField = safeObserver as? WorldleTextField {
+                    textField.deleteBackward()
+                }
+            }
             return
         }
         
-        if title == "Enter" || title == "Del" {
+        if title == "Enter" {
+            if let safeObserver = observer {
+                if let textField = safeObserver as? WorldleTextField {
+                    textField.shouldReturn()
+                }
+            }
             return
         }
         
         if button.buttonIsEnabled {
             observer?.add(title)
         }
-        print("Did hit \(title)")
+        //print("Did hit \(title)")
     }
 }
