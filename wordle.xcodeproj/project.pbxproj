@@ -13,6 +13,10 @@
 		8D075AC027A29EC20000FFF5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D075ABE27A29EC20000FFF5 /* Main.storyboard */; };
 		8D075AC227A29EC70000FFF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D075AC127A29EC70000FFF5 /* Assets.xcassets */; };
 		8D075AC527A29EC70000FFF5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D075AC327A29EC70000FFF5 /* LaunchScreen.storyboard */; };
+		8D42DBBC27AEF342004358A4 /* WordleTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D42DBB827AEF341004358A4 /* WordleTextField.swift */; };
+		8D42DBBD27AEF342004358A4 /* WordleKeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D42DBB927AEF342004358A4 /* WordleKeyboardObserver.swift */; };
+		8D42DBBE27AEF342004358A4 /* WordleKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D42DBBA27AEF342004358A4 /* WordleKeyboard.swift */; };
+		8D42DBBF27AEF342004358A4 /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D42DBBB27AEF342004358A4 /* KeyboardButton.swift */; };
 		8D75F80827A2A87100B82BCD /* GuessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D75F80627A2A87100B82BCD /* GuessCell.swift */; };
 		8D75F80927A2A87100B82BCD /* GuessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D75F80727A2A87100B82BCD /* GuessCell.xib */; };
 		8D75F80B27A30DCB00B82BCD /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D75F80A27A30DCA00B82BCD /* MyTextField.swift */; };
@@ -31,6 +35,10 @@
 		8D075AC127A29EC70000FFF5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8D075AC427A29EC70000FFF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D075AC627A29EC70000FFF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D42DBB827AEF341004358A4 /* WordleTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordleTextField.swift; sourceTree = "<group>"; };
+		8D42DBB927AEF342004358A4 /* WordleKeyboardObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordleKeyboardObserver.swift; sourceTree = "<group>"; };
+		8D42DBBA27AEF342004358A4 /* WordleKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordleKeyboard.swift; sourceTree = "<group>"; };
+		8D42DBBB27AEF342004358A4 /* KeyboardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
 		8D75F80627A2A87100B82BCD /* GuessCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessCell.swift; sourceTree = "<group>"; };
 		8D75F80727A2A87100B82BCD /* GuessCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GuessCell.xib; sourceTree = "<group>"; };
 		8D75F80A27A30DCA00B82BCD /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
@@ -81,6 +89,7 @@
 		8D075AB727A29EC20000FFF5 /* wordle */ = {
 			isa = PBXGroup;
 			children = (
+				8D42DBC027AEF34A004358A4 /* WordleKeyboard */,
 				8D075AB827A29EC20000FFF5 /* AppDelegate.swift */,
 				8D075ABA27A29EC20000FFF5 /* SceneDelegate.swift */,
 				8DFBB47827A53FC3000136C1 /* Model */,
@@ -92,6 +101,17 @@
 				8DFC7F9F27A541E900CC25C3 /* osDictionary.txt */,
 			);
 			path = wordle;
+			sourceTree = "<group>";
+		};
+		8D42DBC027AEF34A004358A4 /* WordleKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				8D42DBBB27AEF342004358A4 /* KeyboardButton.swift */,
+				8D42DBBA27AEF342004358A4 /* WordleKeyboard.swift */,
+				8D42DBB927AEF342004358A4 /* WordleKeyboardObserver.swift */,
+				8D42DBB827AEF341004358A4 /* WordleTextField.swift */,
+			);
+			path = WordleKeyboard;
 			sourceTree = "<group>";
 		};
 		8DCDA15927A2A42500DBA09D /* Controller */ = {
@@ -127,7 +147,6 @@
 				4661BB3D19BD18202895C0B7 /* Pods-wordle.debug.xcconfig */,
 				D44580907613C7F211748ACD /* Pods-wordle.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -248,12 +267,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D42DBBF27AEF342004358A4 /* KeyboardButton.swift in Sources */,
 				8D075ABD27A29EC20000FFF5 /* ViewController.swift in Sources */,
 				8DCDA15827A2A3E400DBA09D /* GameTableViewController.swift in Sources */,
 				8D075AB927A29EC20000FFF5 /* AppDelegate.swift in Sources */,
 				8D75F80B27A30DCB00B82BCD /* MyTextField.swift in Sources */,
 				8D075ABB27A29EC20000FFF5 /* SceneDelegate.swift in Sources */,
+				8D42DBBD27AEF342004358A4 /* WordleKeyboardObserver.swift in Sources */,
+				8D42DBBC27AEF342004358A4 /* WordleTextField.swift in Sources */,
 				8D75F80827A2A87100B82BCD /* GuessCell.swift in Sources */,
+				8D42DBBE27AEF342004358A4 /* WordleKeyboard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
