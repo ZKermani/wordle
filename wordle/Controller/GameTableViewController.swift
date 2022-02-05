@@ -8,7 +8,7 @@
 import UIKit
 import SPConfetti
 
-class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTextFieldDelegate {
+class GameTableViewController: UITableViewController, UITextFieldDelegate, WordleTextFieldDelegate {
     
     let numberOfGuesses = 6
     let numberOfCharacters = 5
@@ -120,7 +120,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, MyTex
         return cell
     }
     
-    func prepareTextField(_ textField: MyTextField, rowIndex: Int, textFieldIndex: Int) {
+    func prepareTextField(_ textField: WorldleTextField, rowIndex: Int, textFieldIndex: Int) {
         textField.delegate = self
         textField.myDelegate = self
         

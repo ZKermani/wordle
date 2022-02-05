@@ -11,11 +11,11 @@ import QuartzCore
 class GuessCell: UITableViewCell {
 
     @IBOutlet weak var GuessCellView: UIView!
-    @IBOutlet weak var Char1: MyTextField!
-    @IBOutlet weak var Char5: MyTextField!
-    @IBOutlet weak var Char4: MyTextField!
-    @IBOutlet weak var Char3: MyTextField!
-    @IBOutlet weak var Char2: MyTextField!
+    @IBOutlet weak var Char1: WorldleTextField!
+    @IBOutlet weak var Char5: WorldleTextField!
+    @IBOutlet weak var Char4: WorldleTextField!
+    @IBOutlet weak var Char3: WorldleTextField!
+    @IBOutlet weak var Char2: WorldleTextField!
     
     @IBAction func char1Changed(_ sender: UITextField) {
         //print("char1Chnged")
