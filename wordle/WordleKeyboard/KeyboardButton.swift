@@ -14,6 +14,7 @@ class KeyboardButton: UIButton {
     
     var buttonIsEnabled: Bool = true
     var title: String = ""
+    var color: UIColor = .white
     private let formatter: KeyboardButtonFormatter
     weak var delegate: KeyboardButtonDelegate?
     
@@ -66,7 +67,7 @@ protocol KeyboardButtonFormatter {
 struct NormalKeyButtonFormatter: KeyboardButtonFormatter {
     func applyStyle(to button: KeyboardButton) {
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .white
+        button.backgroundColor = button.color //.white
         button.layer.cornerRadius = 4
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 0
@@ -75,7 +76,7 @@ struct NormalKeyButtonFormatter: KeyboardButtonFormatter {
     }
     
     func applyHightlight(_ isHighlighted: Bool, to button: KeyboardButton) {
-        button.backgroundColor = isHighlighted ? UIColor(red:0.66, green:0.69, blue:0.73, alpha:1.00) : .white
+        button.backgroundColor = isHighlighted ? UIColor(red:0.66, green:0.69, blue:0.73, alpha:1.00) : button.color
     }
 }
 

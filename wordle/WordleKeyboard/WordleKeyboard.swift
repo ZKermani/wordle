@@ -100,6 +100,13 @@ class WordleKeyboard: UIInputView {
         button?.backgroundColor = .gray
     }
     
+    func changeKeyColor(with title: String) {
+        print("key is changing color")
+        let button = buttons[title.uppercased()]
+        button?.color = .gray
+        button?.backgroundColor = button?.color
+    }
+    
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: keyboardHeight), inputViewStyle: .keyboard)
         

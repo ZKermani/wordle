@@ -217,6 +217,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
                     }
                 } else {
                     colors[activeRow][count] = .gray
+                    self.keyboard.changeKeyColor(with: char)
                 }
             }
             
