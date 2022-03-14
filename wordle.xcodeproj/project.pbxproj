@@ -21,6 +21,7 @@
 		8D75F80927A2A87100B82BCD /* GuessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D75F80727A2A87100B82BCD /* GuessCell.xib */; };
 		8D75F80B27A30DCB00B82BCD /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D75F80A27A30DCA00B82BCD /* MyTextField.swift */; };
 		8DCDA15827A2A3E400DBA09D /* GameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCDA15727A2A3E400DBA09D /* GameTableViewController.swift */; };
+		8DF75B3A27DF5E0B004E7CF2 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF75B3927DF5E0B004E7CF2 /* AppUtility.swift */; };
 		8DFC7FA027A541E900CC25C3 /* osDictionary.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DFC7F9F27A541E900CC25C3 /* osDictionary.txt */; };
 		A0333C217422366915F8A48F /* Pods_wordle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA38383F98B15C2190E301C /* Pods_wordle.framework */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,7 @@
 		8D75F80727A2A87100B82BCD /* GuessCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GuessCell.xib; sourceTree = "<group>"; };
 		8D75F80A27A30DCA00B82BCD /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
 		8DCDA15727A2A3E400DBA09D /* GameTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewController.swift; sourceTree = "<group>"; };
+		8DF75B3927DF5E0B004E7CF2 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		8DFC7F9F27A541E900CC25C3 /* osDictionary.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = osDictionary.txt; sourceTree = "<group>"; };
 		D44580907613C7F211748ACD /* Pods-wordle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wordle.release.xcconfig"; path = "Target Support Files/Pods-wordle/Pods-wordle.release.xcconfig"; sourceTree = "<group>"; };
 		FAA38383F98B15C2190E301C /* Pods_wordle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_wordle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +122,7 @@
 				8D75F80A27A30DCA00B82BCD /* MyTextField.swift */,
 				8D075ABC27A29EC20000FFF5 /* ViewController.swift */,
 				8DCDA15727A2A3E400DBA09D /* GameTableViewController.swift */,
+				8DF75B3927DF5E0B004E7CF2 /* AppUtility.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				8D42DBBF27AEF342004358A4 /* KeyboardButton.swift in Sources */,
 				8D075ABD27A29EC20000FFF5 /* ViewController.swift in Sources */,
 				8DCDA15827A2A3E400DBA09D /* GameTableViewController.swift in Sources */,
+				8DF75B3A27DF5E0B004E7CF2 /* AppUtility.swift in Sources */,
 				8D075AB927A29EC20000FFF5 /* AppDelegate.swift in Sources */,
 				8D75F80B27A30DCB00B82BCD /* MyTextField.swift in Sources */,
 				8D075ABB27A29EC20000FFF5 /* SceneDelegate.swift in Sources */,
