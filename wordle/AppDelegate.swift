@@ -7,6 +7,9 @@
 
 import UIKit
 
+// App icon design:
+// <a href="https://www.flaticon.com/free-icons/puzzle" title="puzzle icons">Puzzle icons created by Freepik - Flaticon</a>
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
