@@ -19,20 +19,20 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eyE-cQ-NCv" userLabel="Start">
                                 <rect key="frame" x="65" y="412" width="284" height="74"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.023529411764705882" green="0.17254901960784313" blue="0.18823529411764706" alpha="0.65452939469293259" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="PLAY">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="50"/>
+                                <buttonConfiguration key="configuration" style="plain" title="PLAY" titleAlignment="center">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="38"/>
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="startButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rU3-BS-uMO"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome to Kermani Wordle!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oxd-cc-gcE">
-                                <rect key="frame" x="20" y="222" width="374" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Kermani Wordle!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oxd-cc-gcE">
+                                <rect key="frame" x="20" y="94" width="374" height="29"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
@@ -40,8 +40,15 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.106669344" green="0.26279917359999999" blue="0.28420302269999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" systemColor="tintColor"/>
+                        <constraints>
+                            <constraint firstItem="Oxd-cc-gcE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="A76-vR-zOf"/>
+                            <constraint firstItem="Oxd-cc-gcE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-20" id="Pmm-fE-4mO"/>
+                            <constraint firstItem="Oxd-cc-gcE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="eUZ-Hq-d8w"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="playButton" destination="eyE-cQ-NCv" id="y6o-AA-Q7O"/>
+                        <outlet property="welcomeLabel" destination="Oxd-cc-gcE" id="2bE-VY-cI2"/>
                         <segue destination="Mct-D1-I3g" kind="show" identifier="startToGame" id="Y8q-32-CdM"/>
                     </connections>
                 </viewController>
