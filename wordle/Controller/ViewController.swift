@@ -12,12 +12,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
     
+    let cornerRadiusMultiplier = CGFloat(0.01)
+    let fontSizeMultiplier = CGFloat(0.05)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         AppUtility.lockOrientation(.portrait)
         
-        playButton.layer.cornerRadius = playButton.frame.height / 10
+        let screenSize = self.view.frame.size
+        playButton.layer.cornerRadius = cornerRadiusMultiplier * screenSize.height
+        
+        let fontSize = fontSizeMultiplier * screenSize.width
+        welcomeLabel.font = welcomeLabel.font.withSize(fontSize)
+        playButton.titleLabel?.font = playButton.titleLabel?.font.withSize(fontSize)
+        
     }
 
     @IBAction func startButtonPressed(_ sender: UIButton) {
