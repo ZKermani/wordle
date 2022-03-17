@@ -10,7 +10,7 @@ import SPConfetti
 
 class GameTableViewController: UITableViewController, UITextFieldDelegate, WordleTextFieldDelegate {
     
-    let numberOfGuesses = 6
+    let numberOfGuesses = 3
     let numberOfCharacters = 5
     var activeRow = 0
     var currentTextField = UITextField()
@@ -19,7 +19,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
     var words = [[String]]()
     var colors = [[UIColor]]()
     var correctGuess = false
-    var NLetterWords = Array<Substring>()
+    var NLetterWords = [String]()
     var magicWord = [String]()
     
     let keyboard = WordleKeyboard()
@@ -43,27 +43,29 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
     
     func loadWords() {
         
-        let fileName = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("dictionary.txt") // the file is created using osDictionary.txt file
+        NLetterWords = enDictionary
         
-//        let fileName2 = URL(fileURLWithPath: "/Users/Zahra/Documents/Work:Personal/Learning/iOS_Swift/MyApps/wordle/wordle/osDictionary.txt")
-        
-        do {
-            //let text = try String(contentsOf: fileName)
-            let text = try String(contentsOf: fileName)
-//            do {
-//                try text.write(to: fileName, atomically: true, encoding: String.Encoding.utf8)
-//            } catch {
-//                print("error writing to file \(error)")
-//            }
-            
-            //print(text.count)
-            let words = text.split(whereSeparator: \.isNewline)
-            //print(words.count)
-            NLetterWords = words.filter{ $0.count == numberOfCharacters}
-            print(NLetterWords.count)
-        } catch {
-            print("error reading file \(error)")
-        }
+//        let fileName = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("dictionary.txt") // the file is created using osDictionary.txt file
+//
+////        let fileName2 = URL(fileURLWithPath: "/Users/Zahra/Documents/Work:Personal/Learning/iOS_Swift/MyApps/wordle/wordle/osDictionary.txt")
+//
+//        do {
+//            //let text = try String(contentsOf: fileName)
+//            let text = try String(contentsOf: fileName)
+////            do {
+////                try text.write(to: fileName, atomically: true, encoding: String.Encoding.utf8)
+////            } catch {
+////                print("error writing to file \(error)")
+////            }
+//
+//            //print(text.count)
+//            let words = text.split(whereSeparator: \.isNewline)
+//            //print(words.count)
+//            NLetterWords = words.filter{ $0.count == numberOfCharacters}
+//            print(NLetterWords.count)
+//        } catch {
+//            print("error reading file \(error)")
+//        }
     }
     
     func resetGame() {
@@ -94,6 +96,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "reusableCell", for: indexPath) as! GuessCell
+//        let cell = GuessCell(style: .default, reuseIdentifier: "reusableCell")
         
         let rowIndex = indexPath.row
         prepareTextField(cell.Char1, rowIndex: rowIndex, textFieldIndex: 0)
@@ -119,19 +122,22 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
             }
         }
         currentTextField.becomeFirstResponder()
+        currentTextField.inputView = keyboard
         return cell
     }
     
     func prepareTextField(_ textField: WorldleTextField, rowIndex: Int, textFieldIndex: Int) {
         textField.delegate = self
         textField.myDelegate = self
-        textField.inputView = keyboard
+        //textField.inputView = keyboard
         
         let word = words[rowIndex]
         textField.text = word[textFieldIndex]
         
         let color = colors[rowIndex]
         textField.backgroundColor = color[textFieldIndex]
+        
+        textField.resignFirstResponder()
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -203,8 +209,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
         
         // check if the word is in dictionary
         let guessWord    = guess.joined(separator: "")
-        let guessWordSS  = guessWord[guessWord.startIndex..<guessWord.endIndex]
-        if NLetterWords.contains(guessWordSS) {
+        if NLetterWords.contains(guessWord) {
             
             // Change colors according to the guess/magic word similarity
             for count in 0...numberOfCharacters - 1 {
