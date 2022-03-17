@@ -25,8 +25,11 @@ class ViewController: UIViewController {
         
         let fontSize = fontSizeMultiplier * screenSize.width
         welcomeLabel.font = welcomeLabel.font.withSize(fontSize)
-        playButton.titleLabel?.font = playButton.titleLabel?.font.withSize(fontSize)
         
+        let font = UIFont.systemFont(ofSize: fontSize)
+        let attributes = [NSAttributedString.Key.font: font]
+        let title = NSAttributedString(string: "START", attributes: attributes)
+        playButton.setAttributedTitle(title, for: .normal)
     }
 
     @IBAction func startButtonPressed(_ sender: UIButton) {
