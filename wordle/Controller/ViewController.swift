@@ -33,7 +33,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func startButtonPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "startToGame", sender: self)
+        performSegue(withIdentifier: "StartToGame", sender: self)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

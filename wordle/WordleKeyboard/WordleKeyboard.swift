@@ -16,7 +16,7 @@ class WordleKeyboard: UIInputView {
     var observers: [WordleKeyboardObserver]?
     
     var buttons : [String: KeyboardButton] = [String: KeyboardButton]()
-    var keyboardHeight = 180.0
+    var keyboardHeight = 250.0
     
     func stackViewGenerator(for stackViewCount: Int) -> UIStackView {
         let stackview = UIStackView()

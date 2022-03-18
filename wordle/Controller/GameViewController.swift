@@ -1,16 +1,19 @@
 //
-//  GameTableViewController.swift
+//  GameViewController.swift
 //  wordle
 //
-//  Created by Zahra Sadeghipoor on 1/27/22.
+//  Created by Zahra Sadeghipoor on 3/18/22.
 //
 
 import UIKit
+
 import SPConfetti
 
-class GameTableViewController: UITableViewController, UITextFieldDelegate, WordleTextFieldDelegate {
+class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate, WordleTextFieldDelegate {
     
-    let numberOfGuesses = 3
+    @IBOutlet weak var tableView: UITableView!
+    
+    let numberOfGuesses = 5
     let numberOfCharacters = 5
     var activeRow = 0
     var currentTextField = UITextField()
@@ -27,6 +30,7 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.dataSource = self
         tableView.register(UINib(nibName: "GuessCell", bundle: nil), forCellReuseIdentifier: "reusableCell")
         tableView.separatorStyle = .none
         
@@ -83,17 +87,18 @@ class GameTableViewController: UITableViewController, UITextFieldDelegate, Wordl
         for char in randomWord {
             magicWord.append(String(char))
         }
+        magicWord = ["e", "l", "h", "a", "m"]
         print(magicWord)
         tableView.reloadData()
     }
     
     // MARK: - Table view data source
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return numberOfGuesses
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "reusableCell", for: indexPath) as! GuessCell
 //        let cell = GuessCell(style: .default, reuseIdentifier: "reusableCell")
