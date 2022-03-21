@@ -77,6 +77,9 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
     }
     
     func resetGame() {
+        
+        keyboard?.resetKeyColors()
+        
         activeRow = 0
         textFieldCounter = 0
         correctGuess = false
@@ -223,16 +226,19 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
             // Change colors according to the guess/magic word similarity
             for count in 0...numberOfCharacters - 1 {
                 let char = guess[count]
+                var color = UIColor()
                 if magicWord.contains(char) {
-                    colors[activeRow][count] = .orange
-                    
+                    color = .orange
                     if char == magicWord[count] {
-                        colors[activeRow][count] = .green
+                        color = .green
                     }
                 } else {
                     colors[activeRow][count] = .gray
-                    self.keyboard!.changeKeyColor(with: char)
+                    color = .gray
                 }
+                
+                colors[activeRow][count] = color
+                self.keyboard!.changeColorFor(key: char, to: color)
             }
             
             if guess == magicWord { // game is won

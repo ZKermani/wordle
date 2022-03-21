@@ -103,11 +103,17 @@ class WordleKeyboard: UIInputView {
         button?.backgroundColor = .gray
     }
     
-    func changeKeyColor(with title: String) {
-        print("key is changing color")
+    func changeColorFor(key title: String, to color: UIColor) {
         let button = buttons[title.uppercased()]
-        button?.color = .gray
+        button?.color = color
         button?.backgroundColor = button?.color
+    }
+    
+    func resetKeyColors() {
+        for (_ , button) in buttons {
+            button.color = .white
+            button.backgroundColor = button.color
+        }
     }
     
     init(keyboardHeight: CGFloat) {
@@ -156,7 +162,7 @@ extension WordleKeyboard: KeyboardButtonDelegate {
             return
         }
         
-        if title == "Enter" {
+        if title == "ENTER" {
             if let safeObserver = observer {
                 if let textField = safeObserver as? WorldleTextField {
                     textField.shouldReturn()
