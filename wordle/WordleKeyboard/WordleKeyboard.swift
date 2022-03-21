@@ -16,15 +16,14 @@ class WordleKeyboard: UIInputView {
     var observers: [WordleKeyboardObserver]?
     
     var buttons : [String: KeyboardButton] = [String: KeyboardButton]()
-    var keyboardHeight = 250.0
+    var keyboardHeight : CGFloat
+    let stackViewWidthMultiplier = [0.93, 0.83, 0.83]
     
     func stackViewGenerator(for stackViewCount: Int) -> UIStackView {
         let stackview = UIStackView()
         stackview.axis = .horizontal
         stackview.frame = frame
-        stackview.spacing = 2
-        //stackview.distribution = .fillEqually
-        //stackview.distribution = .equalCentering
+        stackview.spacing = 4
         stackview.alignment = .center
         stackview.distribution = .equalSpacing
         addSubview(stackview)
@@ -33,13 +32,12 @@ class WordleKeyboard: UIInputView {
         stackview.translatesAutoresizingMaskIntoConstraints = false
 
         let guide = safeAreaLayoutGuide
-        let topAnchorOffset = CGFloat(stackViewCount) * (keyboardHeight * 0.25 + 5) + keyboardHeight * 0.25 / 2
+        let topAnchorOffset = CGFloat(stackViewCount) * keyboardHeight * 0.33;
         var constraints = [
             stackview.centerXAnchor.constraint(equalTo: centerXAnchor),
-            //stackview.topAnchor.constraint(equalToSystemSpacingBelow: guide.topAnchor, multiplier: 0.3),
             stackview.topAnchor.constraint(equalTo: guide.topAnchor, constant: topAnchorOffset),
-            stackview.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.25),
-            //stackview.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9)
+            stackview.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.30),
+            stackview.widthAnchor.constraint(greaterThanOrEqualTo: widthAnchor, multiplier: stackViewWidthMultiplier[stackViewCount])
         ]
 
 //        switch UIDevice.current.userInterfaceIdiom {
@@ -91,6 +89,11 @@ class WordleKeyboard: UIInputView {
         let button = KeyboardButton(title: title, formatter: formatter)
         button.delegate = self
         stackview.addArrangedSubview(button)
+        let constraints = [
+            button.heightAnchor.constraint(equalTo: stackview.heightAnchor, constant: -2),
+            button.widthAnchor.constraint(greaterThanOrEqualTo: widthAnchor, multiplier: 0.09)
+            ]
+        NSLayoutConstraint.activate(constraints)
         buttons[title as! String] = button
     }
 
@@ -107,8 +110,11 @@ class WordleKeyboard: UIInputView {
         button?.backgroundColor = button?.color
     }
     
-    init() {
+    init(keyboardHeight: CGFloat) {
+        self.keyboardHeight = keyboardHeight
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: keyboardHeight), inputViewStyle: .keyboard)
+        
+        self.backgroundColor = .lightGray
         
         let alphabetListRow0 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"]
         for alphabet in alphabetListRow0 {
@@ -120,12 +126,10 @@ class WordleKeyboard: UIInputView {
             addButton(with: alphabet, and: NormalKeyButtonFormatter(), to: stackviewRow1)
         }
         
-        let alphabetListRow2 = ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Del"]
+        let alphabetListRow2 = ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "Del"]
         for alphabet in alphabetListRow2 {
             addButton(with: alphabet, and: NormalKeyButtonFormatter(), to: stackviewRow2)
         }
-        //addButton(with:, and: <#T##KeyboardButtonFormatter#>, to: <#T##UIStackView#>)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

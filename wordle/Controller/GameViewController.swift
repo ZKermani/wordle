@@ -25,8 +25,10 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
     var NLetterWords = [String]()
     var magicWord = [String]()
     
-    let keyboard = WordleKeyboard()
-    
+    private let keyboardHeightMultiplier = 0.25
+    private let maxKeyboardHeight = 180.0
+    var keyboard: WordleKeyboard?
+      
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,6 +45,8 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
         
         loadWords()
         resetGame()
+        
+        keyboard = WordleKeyboard(keyboardHeight: min(view.frame.size.height * keyboardHeightMultiplier, maxKeyboardHeight))
     }
     
     func loadWords() {
@@ -147,7 +151,7 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == currentTextField {
-            keyboard.observer = textField as! WorldleTextField
+            keyboard!.observer = textField as! WorldleTextField
             return true
         } else {
             return false
@@ -227,7 +231,7 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
                     }
                 } else {
                     colors[activeRow][count] = .gray
-                    self.keyboard.changeKeyColor(with: char)
+                    self.keyboard!.changeKeyColor(with: char)
                 }
             }
             

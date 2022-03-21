@@ -28,15 +28,12 @@ class KeyboardButton: UIButton {
         self.formatter = formatter
         self.title = title.description
         
-//        super.init(frame: .zero)
-        super.init(frame: CGRect(x: 0, y: 0, width: 20, height: 8))
-        
-              
+        super.init(frame: .zero)
+                      
         if title.description == "Del" {
             self.contentMode = .center
             self.setImage(UIImage(systemName: "delete.left"), for: .normal)
-//            self.setTitle(title.description, for: .normal)
-            
+            self.tintColor = .black
         } else {
             self.setTitle(title.description, for: .normal)
         }
