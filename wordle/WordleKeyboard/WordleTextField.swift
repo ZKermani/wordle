@@ -16,11 +16,13 @@ protocol WordleTextFieldDelegate: AnyObject {
 class WorldleTextField: UITextField, WordleKeyboardObserver {
     weak var myDelegate: WordleTextFieldDelegate?
     func add(_ string: String) {
-        self.text?.append(string.lowercased())
+        if self.text?.isEmpty == true { // accept only one character in each text field
+            self.text?.append(string)
+        }
     }
     
     override func deleteBackward() {
-        super.deleteBackward()
+        //super.deleteBackward()
         myDelegate?.textFieldDidDelete()
     }
     

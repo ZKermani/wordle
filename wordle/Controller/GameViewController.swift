@@ -32,6 +32,8 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        keyboard = WordleKeyboard(keyboardHeight: min(view.frame.size.height * keyboardHeightMultiplier, maxKeyboardHeight))
+        
         tableView.dataSource = self
         tableView.register(UINib(nibName: "GuessCell", bundle: nil), forCellReuseIdentifier: "reusableCell")
         tableView.separatorStyle = .none
@@ -45,8 +47,20 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
         
         loadWords()
         resetGame()
+        assignTextFieldInputView()
         
-        keyboard = WordleKeyboard(keyboardHeight: min(view.frame.size.height * keyboardHeightMultiplier, maxKeyboardHeight))
+    }
+    
+    func assignTextFieldInputView() {
+        for row in 0..<numberOfGuesses {
+            let indexPath = IndexPath(row: row, section: 0)
+            let cell = self.tableView.cellForRow(at: indexPath) as! GuessCell
+            cell.Char1.inputView = keyboard
+            cell.Char2.inputView = keyboard
+            cell.Char3.inputView = keyboard
+            cell.Char4.inputView = keyboard
+            cell.Char5.inputView = keyboard
+        }
     }
     
     func loadWords() {
@@ -94,9 +108,9 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
         for char in randomWord {
             magicWord.append(String(char))
         }
-        magicWord = ["e", "l", "h", "a", "m"]
         print(magicWord)
         tableView.reloadData()
+        updateCurrentTextField()
     }
     
     // MARK: - Table view data source
@@ -108,7 +122,6 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "reusableCell", for: indexPath) as! GuessCell
-//        let cell = GuessCell(style: .default, reuseIdentifier: "reusableCell")
         
         let rowIndex = indexPath.row
         prepareTextField(cell.Char1, rowIndex: rowIndex, textFieldIndex: 0)
@@ -116,26 +129,7 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
         prepareTextField(cell.Char3, rowIndex: rowIndex, textFieldIndex: 2)
         prepareTextField(cell.Char4, rowIndex: rowIndex, textFieldIndex: 3)
         prepareTextField(cell.Char5, rowIndex: rowIndex, textFieldIndex: 4)
-        
-        if indexPath.row == activeRow {
-            switch textFieldCounter {
-            case 0:
-                currentTextField = cell.Char1
-            case 1:
-                currentTextField = cell.Char2
-            case 2:
-                currentTextField = cell.Char3
-            case 3:
-                currentTextField = cell.Char4
-            case 4:
-                currentTextField = cell.Char5
-            default:
-                currentTextField = UITextField()
-            }
-        }
-        currentTextField.becomeFirstResponder()
-        currentTextField.inputView = keyboard
-        return cell
+       return cell
     }
     
     func prepareTextField(_ textField: WorldleTextField, rowIndex: Int, textFieldIndex: Int) {
@@ -148,8 +142,6 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
         
         let color = colors[rowIndex]
         textField.backgroundColor = color[textFieldIndex]
-        
-        textField.resignFirstResponder()
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -162,7 +154,6 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
     }
     
     func textFieldDidDelete() {
-        print("delete")
         if textFieldCounter == numberOfCharacters - 1 {
             if words[activeRow][textFieldCounter] == "" {
                 textFieldCounter -= 1
@@ -170,33 +161,62 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
             } else {
                 words[activeRow][textFieldCounter] = ""
             }
-            tableView.reloadData()
         } else {
             if textFieldCounter > 0 {
                 textFieldCounter -= 1
                 words[activeRow][textFieldCounter] = ""
-                tableView.reloadData()
             }
         }
+        
+        DispatchQueue.main.async {
+            self.updateCurrentTextField()
+        }
+        tableView.reloadData()
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField.hasText {
-            print("Text field changed")
+
+       if textField.hasText {
             if let text = textField.text {
                 words[activeRow][textFieldCounter] = text
-            }
-            
-            if textFieldCounter < numberOfCharacters - 1 {
-                textFieldCounter += 1
-                tableView.reloadData()
+
+                if textFieldCounter < numberOfCharacters - 1 {
+                    textFieldCounter += 1
+                    tableView.reloadData()
+                    DispatchQueue.main.async {
+                        self.updateCurrentTextField()
+                    }
+                }
             }
         }
     }
     
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//
+//        if textField.text?.isEmpty == true && !string.isEmpty {
+//
+//            textField.text = string
+//            words[activeRow][textFieldCounter] = string
+//
+//            if textFieldCounter < numberOfCharacters - 1 {
+//                textFieldCounter += 1
+//                //tableView.reloadData()
+//            }
+//
+//            updateCurrentTextField()
+//
+//            return false
+//        }
+//
+////        if textField.text?.isEmpty == false {
+////            return false
+////        }
+//
+//        return true
+//    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        print("pressed")
         if textFieldCounter == numberOfCharacters - 1 {
             checkGuess(textField)
             return true
@@ -208,7 +228,6 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
     
      func enterWasPressed() {
          
-         print("enter pressed")
          if textFieldCounter == numberOfCharacters - 1 {
              let textField = UITextField()
              checkGuess(textField)
@@ -217,10 +236,13 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
     
     func checkGuess(_ textField: UITextField) {
         
-        let guess = words[activeRow]
+        var guess = words[activeRow]
+        for i in 0..<guess.count {
+            guess[i] = guess[i].lowercased()
+        }
         
         // check if the word is in dictionary
-        let guessWord    = guess.joined(separator: "")
+        let guessWord = guess.joined(separator: "")
         if NLetterWords.contains(guessWord) {
             
             // Change colors according to the guess/magic word similarity
@@ -247,7 +269,7 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
                 //textField.resignFirstResponder()
                 tableView.reloadData()
                 
-                let alert = endOfGameAlert(title: "Congratulation!\n This was your best try ever.",
+                let alert = endOfGameAlert(title: "Congratulation!\n You are a genius.",
                                            message: "")
                 self.present(alert, animated: true, completion: nil)
                 SPConfetti.startAnimating(.fullWidthToDown,
@@ -265,8 +287,8 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
                     
                     textFieldCounter = 0
                     activeRow += 1
-                    //textField.resignFirstResponder()
                     tableView.reloadData()
+                    updateCurrentTextField()
                     
                 }
             }
@@ -274,7 +296,7 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
         } else {
             let alert = UIAlertController(title: "That is not a word!", message: "Try again.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
-                self.tableView.reloadData()
+                self.updateCurrentTextField()
             }))
             self.present(alert, animated: true, completion: nil)
         }
@@ -295,4 +317,25 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
         alert.addAction(cancelAction)
         return alert
     }
+    
+    func updateCurrentTextField() {
+        let indexPath = IndexPath(row: self.activeRow, section: 0)
+        let cell = tableView.cellForRow(at: indexPath) as! GuessCell
+        switch textFieldCounter {
+        case 0:
+            currentTextField = cell.Char1
+        case 1:
+            currentTextField = cell.Char2
+        case 2:
+            currentTextField = cell.Char3
+        case 3:
+            currentTextField = cell.Char4
+        case 4:
+            currentTextField = cell.Char5
+        default:
+            currentTextField = UITextField()
+        }
+        currentTextField.becomeFirstResponder()
+    }
+    
 }

@@ -171,9 +171,6 @@ extension WordleKeyboard: KeyboardButtonDelegate {
             return
         }
         
-        if button.buttonIsEnabled {
-            observer?.add(title)
-        }
-        //print("Did hit \(title)")
+        observer?.add(title)
     }
 }
