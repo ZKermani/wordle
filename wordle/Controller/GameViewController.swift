@@ -32,6 +32,8 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
         keyboard = WordleKeyboard(keyboardHeight: min(view.frame.size.height * keyboardHeightMultiplier, maxKeyboardHeight))
         
         tableView.dataSource = self
@@ -49,6 +51,20 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
         resetGame()
         assignTextFieldInputView()
         
+    }
+    
+    @objc func willEnterForeground() {
+        if correctGuess || ( activeRow == numberOfGuesses - 1 && textFieldCounter == numberOfCharacters - 1) {
+            // Reset the game only if the game was over before user left the app.
+            let defaultGuess = ["", "", "", "", ""]
+            let defaultColor = [UIColor]( repeating: .white, count: numberOfCharacters)
+            for _ in 0...numberOfGuesses - 1 {
+                words.append(defaultGuess)
+                colors.append(defaultColor)
+            }
+            resetGame()
+            assignTextFieldInputView()
+        }
     }
     
     func assignTextFieldInputView() {
@@ -310,7 +326,8 @@ class GameViewController: UIViewController, UITableViewDataSource, UITextFieldDe
             self.resetGame()
         })
         let cancelAction = UIAlertAction(title: "I'm done", style: .default, handler: { action in
-            exit(0)
+            // apparently the app is not supposed to quit itself. Only the user is in control of doing so by "pressing the home button" for instance.
+            //exit(0)
         })
         
         alert.addAction(playAgainAction)
